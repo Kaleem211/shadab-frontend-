@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Shadab Restaurant — Order Online</title>
+<meta name="description" content="Shadab Restaurant — authentic Dum Biryani, ordered online. Free delivery.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="dark">
+
+<!-- ============ AMBIENT BACKGROUND ============ -->
+<div class="ambient-glow ambient-glow--a"></div>
+<div class="ambient-glow ambient-glow--b"></div>
+
+<!-- ============ TOP HEADER ============ -->
+<header class="topbar" id="topbar">
+  <div class="topbar__inner">
+
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a href="#home" class="brand" data-nav="home">
+      <span class="brand__crest">✦</span>
+      <span class="brand__text">
+        <span class="brand__name">Shadab</span>
+        <span class="brand__sub">Restaurant</span>
+      </span>
+    </a>
+
+    <div class="topbar__actions">
+      <button class="iconbtn" id="searchToggleBtn" aria-label="Search menu" title="Search">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </button>
+
+      <button class="iconbtn" id="themeToggle" aria-label="Toggle theme" title="Toggle light / dark">
+        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19v2.5M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19 12h2.5M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7" stroke-linecap="round"/></svg>
+        <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" stroke-linejoin="round"/></svg>
+      </button>
+
+      <button class="iconbtn cartbtn" id="cartBtn" aria-label="Open cart">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.2 12.2a2 2 0 0 0 2 1.6h8.1a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="9.5" cy="20.5" r="1.4"/><circle cx="17.5" cy="20.5" r="1.4"/></svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- search panel -->
+  <div class="search-panel" id="searchPanel">
+    <div class="search-panel__inner">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="text" id="searchInput" placeholder="Search for biryani, fry, curry…" autocomplete="off">
+      <button class="iconbtn" id="searchCloseBtn" aria-label="Close search">✕</button>
+    </div>
+    <div class="search-results" id="searchResults" hidden></div>
+  </div>
+
+  <!-- closing-time strip -->
+  <div class="ordertime-strip" id="orderTimeStrip">
+    <span class="dot"></span>
+    <span id="orderTimeText">Ordering open until 7:15 PM today</span>
+  </div>
+</header>
+
+<!-- ============ SIDE NAV (tree-line menu) ============ -->
+<div class="navshade" id="navShade"></div>
+<nav class="sidenav" id="sideNav" aria-label="Main menu">
+  <div class="sidenav__head">
+    <span class="brand__crest">✦</span>
+    <div>
+      <div class="sidenav__title">Shadab</div>
+      <div class="sidenav__subtitle">Restaurant</div>
+    </div>
+    <button class="iconbtn sidenav__close" id="sideNavClose" aria-label="Close menu">✕</button>
+  </div>
+
+  <div class="sidenav__user" id="sideNavUser">
+    <div class="avatar">🍽️</div>
+    <div>
+      <div class="sidenav__user-name" id="sideNavUserName">Welcome, Guest</div>
+      <div class="sidenav__user-hint" id="sideNavUserHint">Sign in to track your orders</div>
+    </div>
+  </div>
+
+  <ul class="sidenav__list">
+    <li><a href="#home" data-nav="home"><span class="li-ico">🏠</span>Home &amp; Menu<span class="li-line"></span></a></li>
+    <li><a href="#" id="navAuth"><span class="li-ico">👤</span><span id="navAuthLabel">Log in / Create account</span><span class="li-line"></span></a></li>
+    <li><a href="#orders" data-nav="orders"><span class="li-ico">🧾</span>My Orders<span class="li-line"></span></a></li>
+    <li><a href="#" id="navCart"><span class="li-ico">🛒</span>Cart<span class="li-line"></span></a></li>
+    <li class="sidenav__divider"></li>
+    <li><a href="#admin" data-nav="admin"><span class="li-ico">🔐</span>Admin Site<span class="li-line"></span></a></li>
+    <li id="navLogoutItem" hidden><a href="#" id="navLogout"><span class="li-ico">↩</span>Log out<span class="li-line"></span></a></li>
+  </ul>
+
+  <div class="sidenav__foot">Crafted for Shadab Restaurant · Free delivery</div>
+</nav>
+
+<!-- ============ MAIN ============ -->
+<main id="mainContent">
+
+  <!-- ---------- HOME / MENU VIEW ---------- -->
+  <section class="view" id="view-home" data-view="home">
+
+    <section class="banner-carousel" id="bannerCarousel" aria-label="Featured offers">
+      <div class="banner-track" id="bannerTrack">
+        <div class="banner-slide">
+          <img src="images/banners/banner1.jpg" alt="The Grand Biryani Festival">
+        </div>
+        <div class="banner-slide">
+          <img src="images/banners/banner2.jpg" alt="Order Bucket Biryanis">
+        </div>
+        <div class="banner-slide">
+          <img src="images/banners/banner3.jpg" alt="The Grand Chicken Gravy and Fry Festival">
+        </div>
+      </div>
+      <button class="banner-nav banner-nav--prev" id="bannerPrev" aria-label="Previous banner">‹</button>
+      <button class="banner-nav banner-nav--next" id="bannerNext" aria-label="Next banner">›</button>
+      <div class="banner-dots" id="bannerDots"></div>
+    </section>
+
+    <section class="hero">
+      <div class="hero__ornament hero__ornament--tl">❧</div>
+      <div class="hero__ornament hero__ornament--tr">❧</div>
+      <p class="hero__eyebrow">Slow-cooked Dum Biryani</p>
+      <h1 class="hero__title">Sh<span class="hero__title-accent">a</span>dab</h1>
+      <p class="hero__sub">Restaurant · Free Delivery</p>
+      <div class="hero__cta-row">
+        <a href="#menu" class="btn btn--primary" id="heroOrderBtn">Order Now</a>
+      </div>
+    </section>
+
+    <section class="menu" id="menu">
+      <div class="menu__head">
+        <h2>The Menu</h2>
+        <p>Every dish, hand-portioned and dum-sealed. Tap <strong>Add</strong> to build your order.</p>
+      </div>
+
+      <div class="menu__list" id="menuList"><!-- populated by JS --></div>
+    </section>
+
+    <section class="trust">
+      <div class="trust__item"><span>🛵</span><div><strong>Free Delivery</strong><small>On every order, no minimum</small></div></div>
+      <div class="trust__item"><span>⏱</span><div><strong>Order Cut-off</strong><small id="trustCutoff">7:15 PM daily</small></div></div>
+      <div class="trust__item"><span>🔥</span><div><strong>Fresh Dum</strong><small>Sealed &amp; served hot</small></div></div>
+    </section>
+  </section>
+
+  <!-- ---------- MY ORDERS VIEW ---------- -->
+  <section class="view" id="view-orders" data-view="orders" hidden>
+    <div class="page-head">
+      <h2>My Orders</h2>
+      <p>Everything you've ordered from Shadab, most recent first.</p>
+    </div>
+    <div id="myOrdersList" class="orders-list"></div>
+  </section>
+
+  <!-- ---------- PROFILE VIEW ---------- -->
+  <section class="view" id="view-profile" data-view="profile" hidden>
+    <div class="page-head">
+      <h2>My Account</h2>
+      <p>Your details on file with Shadab Restaurant.</p>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-card__avatar">🧑</div>
+      <div class="profile-card__field">
+        <span>Name</span>
+        <div class="profile-card__editrow">
+          <input type="text" id="profileNameInput" disabled>
+          <button class="iconbtn" id="profileNameEditBtn" aria-label="Edit name">✎</button>
+        </div>
+      </div>
+      <div class="profile-card__field">
+        <span>Mobile number</span>
+        <div class="profile-card__value" id="profilePhoneValue">—</div>
+      </div>
+      <div class="profile-card__field">
+        <span>Email address</span>
+        <div class="profile-card__value" id="profileEmailValue">—</div>
+      </div>
+      <div class="profile-card__field">
+        <span>Member since</span>
+        <div class="profile-card__value" id="profileSinceValue">—</div>
+      </div>
+      <button class="btn btn--ghost btn--block" id="profileLogoutBtn">Log out</button>
+    </div>
+  </section>
+
+  <!-- ---------- ADMIN GATE / DASHBOARD ---------- -->
+  <section class="view" id="view-admin" data-view="admin" hidden>
+
+    <div class="admin-gate" id="adminGate">
+      <div class="admin-gate__card">
+        <div class="admin-gate__ico">🔐</div>
+        <h2>Admin Access</h2>
+        <p>This area is restricted to the restaurant owner.</p>
+        <form id="adminGateForm" autocomplete="off">
+          <label class="field">
+            <span>Admin password</span>
+            <div class="pwd-field">
+              <input type="password" id="adminPassword" placeholder="Enter password" required>
+              <button type="button" class="pwd-eye" data-target="adminPassword" aria-label="Show password">👁</button>
+            </div>
+          </label>
+          <button class="btn btn--primary btn--block" type="submit">Unlock Admin</button>
+          <p class="field-error" id="adminGateError" hidden>Incorrect password. Try again.</p>
+        </form>
+      </div>
+    </div>
+
+    <div class="admin-dash" id="adminDash" hidden>
+      <div class="page-head page-head--row">
+        <div>
+          <h2>Admin Dashboard</h2>
+          <p>Manage orders, verify deliveries, and control the ordering window.</p>
+        </div>
+        <button class="btn btn--ghost" id="adminLogoutBtn">Lock admin</button>
+      </div>
+
+      <div class="admin-whoami" id="adminWhoami">
+        <span class="admin-whoami__dot"></span>
+        <span id="adminWhoamiText">Signed in as Guest</span>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab is-active" data-tab="allorders"><span class="admin-tab__ico">🧾</span>All Orders</button>
+        <button class="admin-tab" data-tab="verify"><span class="admin-tab__ico">✅</span>Verify Orders</button>
+        <button class="admin-tab" data-tab="menu"><span class="admin-tab__ico">🍽️</span>Menu</button>
+        <button class="admin-tab" data-tab="settings"><span class="admin-tab__ico">⚙️</span>Settings</button>
+      </div>
+
+      <!-- ALL ORDERS -->
+      <div class="admin-panel is-active" id="panel-allorders">
+        <div class="admin-stats-row">
+          <div class="admin-stat"><strong id="statOrderCount">0</strong><span>Orders</span></div>
+          <div class="admin-stat"><strong id="statTotalAmount">₹0</strong><span>Total value</span></div>
+        </div>
+        <div class="search-field">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="text" id="ordersSearchInput" placeholder="Search by name, phone, or order ID…">
+        </div>
+        <div class="admin-panel__toolbar">
+          <button class="btn btn--primary" id="copyOrdersBtn">Copy order list</button>
+          <button class="btn btn--ghost" id="copyOrderIdsBtn">Copy order IDs</button>
+          <button class="btn btn--danger" id="clearOrdersBtn">Clear all orders</button>
+        </div>
+        <p class="admin-panel__hint">Orders older than 12 hours are cleared automatically to keep things tidy.</p>
+        <div id="allOrdersList" class="orders-list orders-list--admin"></div>
+      </div>
+
+      <!-- VERIFY ORDERS -->
+      <div class="admin-panel" id="panel-verify">
+        <div class="admin-panel__toolbar">
+          <div class="field field--inline">
+            <span>Date</span>
+            <input type="date" id="verifyDateInput">
+          </div>
+        </div>
+        <div class="search-field">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="text" id="verifySearchInput" placeholder="Search by name, phone, or order ID…">
+        </div>
+        <div id="verifyOrdersList" class="verify-list"></div>
+      </div>
+
+      <!-- MENU MANAGEMENT -->
+      <div class="admin-panel" id="panel-menu">
+        <div class="admin-panel__toolbar">
+          <button class="btn btn--primary" id="addItemBtn">+ Add new item</button>
+          <button class="btn btn--ghost" id="restoreMenuBtn">Restore original menu</button>
+        </div>
+        <div id="menuManageList" class="menu-manage-list"></div>
+      </div>
+
+      <!-- ITEM EDITOR (add / edit) -->
+      <div class="admin-panel" id="panel-itemform" hidden>
+        <div class="settings-card">
+          <h3 id="itemFormTitle">Add new item</h3>
+          <form id="itemForm">
+            <label class="field">
+              <span>Item name</span>
+              <input type="text" id="itemNameInput" required placeholder="e.g. Mutton Biryani">
+            </label>
+            <label class="field">
+              <span>Price (₹)</span>
+              <input type="number" id="itemPriceInput" required min="1" placeholder="e.g. 250">
+            </label>
+            <label class="field">
+              <span>Category</span>
+              <input type="text" id="itemCategoryInput" list="categoryOptions" required placeholder="e.g. Biryani">
+              <datalist id="categoryOptions">
+                <option value="Buckets"></option>
+                <option value="Biryani"></option>
+                <option value="Fry"></option>
+                <option value="Curry"></option>
+              </datalist>
+            </label>
+            <label class="field">
+              <span>Note (optional, e.g. portion size)</span>
+              <input type="text" id="itemNoteInput" placeholder="e.g. 200–250gm">
+            </label>
+            <label class="field">
+              <span>Description (optional)</span>
+              <textarea id="itemDescInput" rows="2" placeholder="A short, appetising description shown in the item's detail view"></textarea>
+            </label>
+            <label class="field">
+              <span>Icon</span>
+              <div class="icon-choice-row" id="iconChoiceRow"></div>
+            </label>
+            <label class="field">
+              <span>Photo (optional — shown instead of the icon if added)</span>
+              <div class="photo-upload-row">
+                <div class="photo-upload-preview" id="itemPhotoPreview">No photo</div>
+                <div class="photo-upload-actions">
+                  <label class="btn btn--ghost photo-upload-btn">
+                    Choose photo
+                    <input type="file" id="itemPhotoInput" accept="image/*" hidden>
+                  </label>
+                  <button type="button" class="btn btn--ghost" id="removeItemPhotoBtn">Remove</button>
+                </div>
+              </div>
+            </label>
+            <div class="settings-row">
+              <button class="btn btn--primary" type="submit">Save item</button>
+              <button class="btn btn--ghost" type="button" id="cancelItemFormBtn">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="admin-panel" id="panel-settings">
+
+        <div class="settings-card">
+          <h3>Order closing time</h3>
+          <p>Customers can only place orders up to this time each day. After it passes, ordering is disabled until the next day (or until you change it again).</p>
+          <div class="settings-row">
+            <label class="field">
+              <span>Closing time (today &amp; onward)</span>
+              <input type="time" id="closingTimeInput">
+            </label>
+            <button class="btn btn--primary" id="saveClosingTimeBtn">Save</button>
+          </div>
+          <div class="settings-row">
+            <button class="btn btn--ghost" id="resetClosingTimeBtn">Reset to default (7:15 PM)</button>
+          </div>
+          <p class="settings-current">Current setting: <strong id="currentClosingLabel">7:15 PM</strong></p>
+        </div>
+
+        <div class="settings-card">
+          <h3>Change admin password</h3>
+          <p>Choose something only you know. You'll need it next time you unlock this page.</p>
+          <form id="changePasswordForm">
+            <label class="field">
+              <span>Current password</span>
+              <div class="pwd-field">
+                <input type="password" id="currentPasswordInput" required>
+                <button type="button" class="pwd-eye" data-target="currentPasswordInput" aria-label="Show password">👁</button>
+              </div>
+            </label>
+            <label class="field">
+              <span>New password</span>
+              <div class="pwd-field">
+                <input type="password" id="newPasswordInput" required minlength="4">
+                <button type="button" class="pwd-eye" data-target="newPasswordInput" aria-label="Show password">👁</button>
+              </div>
+            </label>
+            <label class="field">
+              <span>Confirm new password</span>
+              <div class="pwd-field">
+                <input type="password" id="confirmPasswordInput" required minlength="4">
+                <button type="button" class="pwd-eye" data-target="confirmPasswordInput" aria-label="Show password">👁</button>
+              </div>
+            </label>
+            <button class="btn btn--primary btn--block" type="submit">Update password</button>
+            <p class="field-error" id="changePasswordError" hidden></p>
+            <p class="field-success" id="changePasswordSuccess" hidden>Password updated.</p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ CART DRAWER ============ -->
+<div class="drawershade" id="drawerShade"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Your cart">
+  <div class="cart-drawer__head">
+    <h3>Your Cart</h3>
+    <button class="iconbtn" id="cartCloseBtn" aria-label="Close cart">✕</button>
+  </div>
+  <div class="cart-drawer__body" id="cartItems"></div>
+  <div class="cart-drawer__foot">
+    <div class="cart-total-row"><span>Total</span><strong id="cartTotal">₹0</strong></div>
+    <button class="btn btn--primary btn--block" id="checkoutBtn">Place Order</button>
+    <p class="cart-note" id="cartClosedNote" hidden>Ordering is closed for today — the kitchen has stopped taking new orders.</p>
+  </div>
+</aside>
+
+<!-- ============ LOGIN MODAL ============ -->
+<div class="modal-shade" id="loginShade"></div>
+<div class="modal auth-modal" id="loginModal" role="dialog" aria-modal="true">
+  <button class="iconbtn modal__close" id="loginCloseBtn" aria-label="Close">✕</button>
+  <div class="auth-step" id="loginStep">
+    <div class="modal__ico">🔐</div>
+    <h3>Welcome back</h3>
+    <p>Log in to track orders and check out faster.</p>
+    <label class="field">
+      <span>Mobile number or email</span>
+      <input type="text" id="loginIdentifier" placeholder="10-digit mobile or email address" autocomplete="username">
+    </label>
+    <label class="field">
+      <span>Password</span>
+      <div class="pwd-field">
+        <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
+        <button type="button" class="pwd-eye" data-target="loginPassword" aria-label="Show password">👁</button>
+      </div>
+    </label>
+    <p class="field-error" id="loginError" hidden></p>
+    <button class="btn btn--primary btn--block" id="loginSubmitBtn">Log In</button>
+    <button class="linklike" id="openForgotBtn">Forgot password?</button>
+    <div class="auth-switch">
+      <span>New to Shadab?</span>
+      <button class="btn btn--ghost btn--block" id="loginToSignupBtn">Create an account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CREATE ACCOUNT MODAL ============ -->
+<div class="modal-shade" id="signupShade"></div>
+<div class="modal auth-modal" id="signupModal" role="dialog" aria-modal="true">
+  <button class="iconbtn modal__close" id="signupCloseBtn" aria-label="Close">✕</button>
+
+  <div class="auth-step" id="signupStepDetails">
+    <div class="modal__ico">✨</div>
+    <h3>Create your account</h3>
+    <p>Just a few details — takes less than a minute.</p>
+    <label class="field">
+      <span>Username</span>
+      <input type="text" id="signupUsername" placeholder="What should we call you?" autocomplete="name">
+    </label>
+    <label class="field">
+      <span>Mobile number</span>
+      <input type="tel" id="signupMobile" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" autocomplete="tel">
+    </label>
+    <label class="field">
+      <span>Email address</span>
+      <input type="email" id="signupEmail" placeholder="you@example.com" autocomplete="email">
+    </label>
+    <label class="field">
+      <span>Password</span>
+      <div class="pwd-field">
+        <input type="password" id="signupPassword" placeholder="Create a password" autocomplete="new-password">
+        <button type="button" class="pwd-eye" data-target="signupPassword" aria-label="Show password">👁</button>
+      </div>
+      <div class="pwd-strength">
+        <div class="pwd-strength__track"><div class="pwd-strength__bar" id="signupStrengthBar"></div></div>
+        <span class="pwd-strength__label" id="signupStrengthLabel"></span>
+      </div>
+    </label>
+    <label class="field">
+      <span>Confirm password</span>
+      <div class="pwd-field">
+        <input type="password" id="signupConfirm" placeholder="Re-enter your password" autocomplete="new-password">
+        <button type="button" class="pwd-eye" data-target="signupConfirm" aria-label="Show password">👁</button>
+      </div>
+    </label>
+    <p class="field-error" id="signupError" hidden></p>
+    <button class="btn btn--primary btn--block" id="signupDetailsBtn">Create Account</button>
+    <button class="linklike" id="signupToLoginBtn">Already have an account? Log in</button>
+  </div>
+
+  <div class="auth-step" id="signupStepVerify" hidden>
+    <div class="modal__ico">📧</div>
+    <h3>Verify your email</h3>
+    <p>We sent a 6-digit confirmation code to <strong id="signupEmailEcho"></strong>. <button class="linklike linklike--inline" id="signupEditDetailsBtn">Edit</button></p>
+    <div class="otp-boxes otp-boxes--6" id="signupOtpBoxesWrap">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+    </div>
+    <p class="demo-otp-hint" id="signupDemoHint"></p>
+    <button class="btn btn--primary btn--block" id="signupVerifyBtn">Verify &amp; create account</button>
+    <button class="linklike" id="signupResendBtn">Resend code</button>
+  </div>
+
+  <div class="auth-step" id="signupStepSuccess" hidden>
+    <div class="modal__ico modal__ico--success">✅</div>
+    <h3>Account created successfully!</h3>
+    <p>Welcome to Shadab Restaurant, <strong id="signupSuccessName"></strong> — you're logged in and ready to order.</p>
+    <button class="btn btn--primary btn--block" id="signupContinueBtn">Continue</button>
+  </div>
+</div>
+
+<!-- ============ FORGOT PASSWORD MODAL ============ -->
+<div class="modal-shade" id="forgotShade"></div>
+<div class="modal auth-modal" id="forgotModal" role="dialog" aria-modal="true">
+  <button class="iconbtn modal__close" id="forgotCloseBtn" aria-label="Close">✕</button>
+
+  <div class="auth-step" id="forgotStepEmail">
+    <div class="modal__ico">🔑</div>
+    <h3>Reset your password</h3>
+    <p>Enter the email on your account and we'll send you a verification code.</p>
+    <label class="field">
+      <span>Email address</span>
+      <input type="email" id="forgotEmail" placeholder="you@example.com" autocomplete="email">
+    </label>
+    <p class="field-error" id="forgotEmailError" hidden></p>
+    <button class="btn btn--primary btn--block" id="forgotSendBtn">Send code</button>
+    <button class="linklike" id="forgotBackToLoginBtn">Back to log in</button>
+  </div>
+
+  <div class="auth-step" id="forgotStepOtp" hidden>
+    <div class="modal__ico">📩</div>
+    <h3>Enter the code</h3>
+    <p>Sent to <strong id="forgotEmailEcho"></strong>. <button class="linklike linklike--inline" id="forgotEditEmailBtn">Edit</button></p>
+    <div class="otp-boxes otp-boxes--6" id="forgotOtpBoxesWrap">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+      <input maxlength="1" inputmode="numeric" class="otp-box">
+    </div>
+    <p class="demo-otp-hint" id="forgotDemoHint"></p>
+    <button class="btn btn--primary btn--block" id="forgotVerifyBtn">Verify code</button>
+    <button class="linklike" id="forgotResendBtn">Resend code</button>
+  </div>
+
+  <div class="auth-step" id="forgotStepNewPass" hidden>
+    <div class="modal__ico">🔒</div>
+    <h3>Set a new password</h3>
+    <p>Choose a new password, or skip and keep your current one.</p>
+    <label class="field">
+      <span>New password</span>
+      <div class="pwd-field">
+        <input type="password" id="forgotNewPass" placeholder="New password" autocomplete="new-password">
+        <button type="button" class="pwd-eye" data-target="forgotNewPass" aria-label="Show password">👁</button>
+      </div>
+      <div class="pwd-strength">
+        <div class="pwd-strength__track"><div class="pwd-strength__bar" id="forgotStrengthBar"></div></div>
+        <span class="pwd-strength__label" id="forgotStrengthLabel"></span>
+      </div>
+    </label>
+    <label class="field">
+      <span>Confirm new password</span>
+      <div class="pwd-field">
+        <input type="password" id="forgotConfirmPass" placeholder="Re-enter new password" autocomplete="new-password">
+        <button type="button" class="pwd-eye" data-target="forgotConfirmPass" aria-label="Show password">👁</button>
+      </div>
+    </label>
+    <p class="field-error" id="forgotPassError" hidden></p>
+    <button class="btn btn--primary btn--block" id="forgotSaveBtn">Save &amp; continue</button>
+    <button class="linklike" id="forgotSkipBtn">Skip for now</button>
+  </div>
+
+  <div class="auth-step" id="forgotStepDone" hidden>
+    <div class="modal__ico modal__ico--success">✅</div>
+    <h3 id="forgotDoneTitle">Password updated</h3>
+    <p id="forgotDoneMessage">Your password has been changed. You can now log in with your new password.</p>
+    <button class="btn btn--primary btn--block" id="forgotDoneBtn">Back to log in</button>
+  </div>
+</div>
+
+<!-- ============ CHECKOUT CONFIRM MODAL ============ -->
+<div class="modal-shade" id="checkoutShade"></div>
+<div class="modal checkout-modal" id="checkoutModal" role="dialog" aria-modal="true">
+  <button class="iconbtn modal__close" id="checkoutCloseBtn" aria-label="Close">✕</button>
+  <div class="modal__ico">🧾</div>
+  <h3>Confirm your order</h3>
+  <div id="checkoutSummary" class="checkout-summary"></div>
+  <label class="field">
+    <span>Delivery address</span>
+    <textarea id="checkoutAddress" rows="2" placeholder="House / flat, street, landmark"></textarea>
+  </label>
+  <button class="btn btn--primary btn--block" id="confirmOrderBtn">Confirm &amp; Place Order</button>
+</div>
+
+<!-- ============ ITEM DETAIL MODAL ============ -->
+<div class="modal-shade" id="itemDetailShade"></div>
+<div class="modal item-detail-modal" id="itemDetailModal" role="dialog" aria-modal="true">
+  <button class="iconbtn modal__close" id="itemDetailCloseBtn" aria-label="Close">✕</button>
+  <div class="item-detail__media" id="itemDetailMedia"></div>
+  <div class="item-detail__body">
+    <span class="item-detail__category" id="itemDetailCategory"></span>
+    <h3 id="itemDetailName"></h3>
+    <p class="item-detail__desc" id="itemDetailDesc"></p>
+    <div class="item-detail__row">
+      <span class="item-detail__price" id="itemDetailPrice"></span>
+      <div class="stepper" id="itemDetailStepper">
+        <button class="qty-minus" id="itemDetailMinus" aria-label="Decrease quantity">−</button>
+        <span class="stepper__count" id="itemDetailQty">1</span>
+        <button class="qty-plus" id="itemDetailPlus" aria-label="Increase quantity">+</button>
+      </div>
+    </div>
+    <button class="btn btn--primary btn--block" id="itemDetailAddBtn">Add to Cart</button>
+  </div>
+</div>
+
+<!-- ============ CLEAR ORDERS CONFIRM MODAL ============ -->
+<div class="modal-shade" id="clearOrdersShade"></div>
+<div class="modal confirm-modal" id="clearOrdersModal" role="dialog" aria-modal="true">
+  <div class="modal__ico">🗑️</div>
+  <h3>Clear all orders?</h3>
+  <p>This permanently deletes every order record — all-orders history, delivery status, everything. This can't be undone.</p>
+  <p class="clear-orders-countdown" id="clearOrdersCountdownText">Clearing in 7s…</p>
+  <div class="settings-row">
+    <button class="btn btn--ghost btn--block" id="cancelClearOrdersBtn">Cancel</button>
+  </div>
+</div>
+
+<!-- ============ LOGOUT CONFIRM MODAL ============ -->
+<div class="modal-shade" id="logoutShade"></div>
+<div class="modal confirm-modal" id="logoutModal" role="dialog" aria-modal="true">
+  <div class="modal__ico">↩</div>
+  <h3>Log out?</h3>
+  <p>You'll need to verify your mobile number again next time.</p>
+  <div class="settings-row">
+    <button class="btn btn--ghost btn--block" id="cancelLogoutBtn">Cancel</button>
+    <button class="btn btn--primary btn--block" id="confirmLogoutBtn">Log out</button>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast"></div>
+
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
